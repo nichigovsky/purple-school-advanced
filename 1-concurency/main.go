@@ -15,6 +15,8 @@ func main(){
 	res := make(chan int)
 
 	go func(){
+		defer close(res)
+		
 		sli := make([]int, 0, numValues)
 
 		for range numValues {
