@@ -9,7 +9,7 @@ import (
 func main(){
 	router := http.NewServeMux()
 	router.HandleFunc("/random", func(w http.ResponseWriter, r *http.Request) {
-		rn := rand.Intn(7)
+		rn := rand.Intn(6) + 1
 
 		w.Write([]byte(fmt.Sprint(rn)))
 		return
