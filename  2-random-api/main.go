@@ -9,7 +9,7 @@ import (
 func main(){
 	router := http.NewServeMux()
 	router.HandleFunc("/random", func(w http.ResponseWriter, r *http.Request) {
-		rn := rand.Intn(6)
+		rn := rand.Intn(7)
 
 		w.Write([]byte(fmt.Sprint(rn)))
 		return
@@ -19,7 +19,7 @@ func main(){
 		Addr: ":8081",
 		Handler: router,
 	}
-	
+
 	fmt.Println("Server is listening on port 8081")
 	server.ListenAndServe()
 }
