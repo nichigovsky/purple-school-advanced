@@ -36,20 +36,29 @@ func (repo *ProductRepository) GetById(id uint64) (*Product, error) {
 	return &product, nil
 }
 
-func (repo *ProductRepository) GetAll() (*ProductResponse, error) {
-	var product Product
-	res := repo.Database.DB.Omit("deleted_at").Clauses(clause.Returning{}).Find(&product)
+func (repo *ProductRepository) GetAll() ([]ProductResponse, error) {
+	var products []Product
+
+	res := repo.Database.DB.
+		Omit("deleted_at").
+		Find(&products)
 
 	if res.Error != nil {
 		return nil, res.Error
 	}
 
-	return &ProductResponse{
-		ID: product.ID,
-		Name: product.Name,
-		Description: product.Description,
-		Images: product.Images,
-	}, nil
+	var response []ProductResponse
+
+	for _, p := range products {
+		response = append(response, ProductResponse{
+			ID:          p.ID,
+			Name:        p.Name,
+			Description: p.Description,
+			Images:      p.Images,
+		})
+	}
+
+	return response, nil
 }
 
 func (repo *ProductRepository) Update(product *Product) (*Product, error) {
