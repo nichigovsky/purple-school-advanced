@@ -2,6 +2,7 @@ package main
 
 import (
 	"4-order-api/configs"
+	"4-order-api/internal/products"
 	"4-order-api/pkg/db"
 	"fmt"
 	"net/http"
@@ -9,9 +10,17 @@ import (
 
 func main(){
 	conf := configs.LoadConfig()
-	_ = db.NewDb(conf)
-	
+	database := db.NewDb(conf)
 	router := http.NewServeMux()
+
+	// Repositories
+	productRepository := products.NewProductRepository(database)
+
+
+	// Handlers
+	products.NewProductHandler(router, products.ProductHandlerDeps{
+		ProductRepository: productRepository,
+	})
 
 	server := http.Server{
 		Addr: ":8081",
