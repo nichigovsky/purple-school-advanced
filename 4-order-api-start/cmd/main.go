@@ -16,7 +16,6 @@ func main(){
 	// Repositories
 	productRepository := products.NewProductRepository(database)
 
-
 	// Handlers
 	products.NewProductHandler(router, products.ProductHandlerDeps{
 		ProductRepository: productRepository,
